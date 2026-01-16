@@ -1,4 +1,5 @@
 .coords 36.204823 138.25293
+https://photos.app.goo.gl/cNZaXYzv49SRnsz97
 
 # Japan
 ## December 2010

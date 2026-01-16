@@ -1,4 +1,5 @@
 .coords 65.73063 -37.595215
+https://photos.app.goo.gl/iPQsuLkKScTbV2kPA
 
 # East Greenland
 ## June 2008

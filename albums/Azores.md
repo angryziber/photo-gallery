@@ -1,4 +1,5 @@
 .coords 38.634855 -27.223965
+https://photos.app.goo.gl/khrMAcARPYeq4Tzt5
 
 # Azores
 ## October 2021

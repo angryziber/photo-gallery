@@ -1,4 +1,5 @@
 .coords 21.521757 -77.781166
+https://photos.app.goo.gl/Wj5UYrCq2RabByQW6
 
 # Cuba
 ## June 2015

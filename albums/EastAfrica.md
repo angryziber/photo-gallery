@@ -1,4 +1,5 @@
 .coords -3.065653 37.352013
+https://goo.gl/photos/fsS644xGwSVsvKqD9
 
 # East Africa trip
 ## Oct-Nov 2016, Kenya & Tanzania

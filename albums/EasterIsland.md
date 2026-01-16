@@ -1,4 +1,5 @@
 .coords -27.1259626 -109.4088544
+https://photos.app.goo.gl/2F52PXpTK38ooj7d7
 
 # Easter Island / Isla de Pascua / Rapa Nui
 ## November 2019

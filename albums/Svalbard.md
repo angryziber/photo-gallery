@@ -1,4 +1,5 @@
 .coords 78.398388 16.4546783
+https://photos.app.goo.gl/dufx379akntoYdo9A
 
 # Svalbard
 ## May 2019, 78° North on Spitsbergen island: Longyearbyean, Barentsburg, Colesbukta, Grumant, Tempelfjord

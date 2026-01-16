@@ -1,4 +1,5 @@
 .coords 45.450283 7.903865
+https://photos.app.goo.gl/C4yufhckqh8Y97fj9
 
 # Battaglia delle Arance
 ## February 2013
