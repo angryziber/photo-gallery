@@ -1,7 +1,8 @@
 # Photo Gallery
 
-Photo albums are in `albums`.
+Static SvelteKit based photo gallery. Replacement of the previous [picasa-gallery](https://github.com/angryziber/picasa-gallery) repository.
 
+Photo albums are in `albums`.
 
 ## Developing
 
