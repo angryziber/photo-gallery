@@ -17,7 +17,6 @@ export interface Album {
 const ALBUMS_DIR = path.resolve('albums')
 
 function parseDate(dateStr: string) {
-  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
   let month = 0
@@ -29,7 +28,7 @@ function parseDate(dateStr: string) {
   }
 
   for (let i = 0; i < 12; i++) {
-    if (dateStr.includes(months[i]) || dateStr.includes(shortMonths[i])) {
+    if (dateStr.includes(dateStr.includes(shortMonths[i])) {
       month = i + 1
       break
     }
@@ -65,10 +64,13 @@ export function loadAlbums(): Album[] {
           lat = parseFloat(parts[0])
           lon = parseFloat(parts[1])
         }
-      } else if (line.startsWith('https://photos.app.goo.gl/')) {
+      } else if (line.includes('goo.gl') || line.includes('photos.app.goo.gl')) {
         photosUrl = line.trim()
       } else if (line.trim() && !line.startsWith('.') && !line.startsWith('#')) {
-        descriptionLines.push(line.trim())
+        const trimmed = line.trim()
+        if (!trimmed.includes('goo.gl') && !trimmed.includes('photos.app.goo.gl') && !trimmed.startsWith('http')) {
+          descriptionLines.push(trimmed)
+        }
       }
     }
 
@@ -81,7 +83,7 @@ export function loadAlbums(): Album[] {
       month,
       year,
       description: descriptionLines.join(' '),
-      thumbnail: `/albums/${id}.png`,
+      thumbnail: `/albums/${id}.jpg`,
       photosUrl,
       lat,
       lon
