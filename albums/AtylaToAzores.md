@@ -1,7 +1,8 @@
 .coords 33.981335 -22.615617
 https://photos.app.goo.gl/r1e38BXVnwabG4Mo6
 
-# On Atyla to from Canary islands to Azores
+# On Atyla from Canary islands to Azores
+## October 2021
 
 My ocean trip on a Spanish tall ship [Atyla](https://atyla.org/) started almost accidentally. I have learned about the ship at the partially canceled Tall Ship Races 2021 held in Tallinn. It was awesome to have many tall ships visiting our city during this time and Atyla caught my attention by being one of the first ones to arrive. The race itself was canceled because of corona-related restrictions in Mariehamn in the Aland islands, but the ships continued to Klaipeda and Szczecin after staying in Tallinn for a couple of weeks and sailing a regatta in the bay. I could even sail with my own MacGregor 26M boat among all the visiting ships to have a good view of them.
 

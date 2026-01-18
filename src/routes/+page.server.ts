@@ -4,6 +4,9 @@ import type {PageServerLoad} from './$types'
 export const load: PageServerLoad = async () => {
   const albums = loadAlbums()
   return {
-    albums: albums.sort((a, b) => b.date.localeCompare(a.date))
+    albums: albums.sort((a, b) => {
+      if (b.year !== a.year) return b.year - a.year
+      return b.month - a.month
+    })
   }
 }

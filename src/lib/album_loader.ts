@@ -1,10 +1,12 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
 export interface Album {
   id: string
   title: string
   date: string
+  month: number
+  year: number
   description: string
   thumbnail: string
   photosUrl: string
@@ -14,11 +16,33 @@ export interface Album {
 
 const ALBUMS_DIR = path.resolve('albums')
 
+function parseDate(dateStr: string) {
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+  let month = 0
+  let year = 0
+
+  const yearMatch = dateStr.match(/\b(20|19)\d{2}\b/)
+  if (yearMatch) {
+    year = parseInt(yearMatch[0])
+  }
+
+  for (let i = 0; i < 12; i++) {
+    if (dateStr.includes(months[i]) || dateStr.includes(shortMonths[i])) {
+      month = i + 1
+      break
+    }
+  }
+
+  return {month, year}
+}
+
 export function loadAlbums(): Album[] {
   const files = fs.readdirSync(ALBUMS_DIR)
-  const mdFiles = files.filter(f => f.endsWith('.md'))
+  const mdFiles = files.filter((f: string) => f.endsWith('.md'))
 
-  return mdFiles.map(filename => {
+  return mdFiles.map((filename: string) => {
     const id = filename.replace('.md', '')
     const content = fs.readFileSync(path.join(ALBUMS_DIR, filename), 'utf-8')
     const lines = content.split('\n')
@@ -48,10 +72,14 @@ export function loadAlbums(): Album[] {
       }
     }
 
+    const {month, year} = parseDate(date)
+
     return {
       id,
       title: title || id,
       date,
+      month,
+      year,
       description: descriptionLines.join(' '),
       thumbnail: `/albums/${id}.png`,
       photosUrl,
