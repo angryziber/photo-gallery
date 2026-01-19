@@ -1,21 +1,25 @@
 <script lang="ts">
   import type {PageData} from './$types'
   import Map from '$lib/components/Map.svelte'
+  import type {Album} from '$lib/album_loader'
 
   let {data}: {data: PageData} = $props()
+  let hoveredAlbum: Album | undefined = $state()
 </script>
 
 <div class="container mx-auto px-4 py-8">
   <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">Anton Keks Photography</h1>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-    <Map albums={data.albums} class="col-span-full h-96 xl:col-start-4 lg:col-start-3 lg:col-span-2 lg:row-start-1 lg:row-span-2 lg:h-full"/>
+    <Map albums={data.albums} {hoveredAlbum} class="col-span-full h-96 xl:col-start-4 lg:col-start-3 lg:col-span-2 lg:row-start-1 lg:row-span-2 lg:h-full"/>
 
     {#each data.albums as album}
       <a
         href={album.photosUrl}
         rel="noopener noreferrer"
         class="group relative overflow-hidden bg-gray-100 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+        onmouseenter={() => hoveredAlbum = album}
+        onmouseleave={() => hoveredAlbum = undefined}
       >
         <div class="aspect-square overflow-hidden">
           <img

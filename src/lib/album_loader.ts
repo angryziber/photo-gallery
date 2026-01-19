@@ -10,8 +10,8 @@ export interface Album {
   description: string
   thumbnail: string
   photosUrl: string
-  lat?: number
-  lon?: number
+  lat: number
+  lng: number
 }
 
 const ALBUMS_DIR = path.resolve('albums')
@@ -50,7 +50,7 @@ export function loadAlbums(): Album[] {
     let date = ''
     let photosUrl = ''
     let lat: number | undefined
-    let lon: number | undefined
+    let lng: number | undefined
     const descriptionLines: string[] = []
 
     for (const line of lines) {
@@ -62,7 +62,7 @@ export function loadAlbums(): Album[] {
         const parts = line.slice(8).trim().split(' ')
         if (parts.length >= 2) {
           lat = parseFloat(parts[0])
-          lon = parseFloat(parts[1])
+          lng = parseFloat(parts[1])
         }
       } else if (line.includes('goo.gl') || line.includes('photos.app.goo.gl')) {
         photosUrl = line.trim()
@@ -79,14 +79,11 @@ export function loadAlbums(): Album[] {
     return {
       id,
       title: title || id,
-      date,
-      month,
-      year,
+      date, month, year,
       description: descriptionLines.join(' '),
       thumbnail: `albums/${id}.jpg`,
       photosUrl,
-      lat,
-      lon
+      lat, lng
     }
   })
 }

@@ -2,10 +2,13 @@
   import {onMount} from 'svelte'
   import type {Album} from '$lib/album_loader'
 
-  let {albums, class: className}: {albums: Album[], class?: string} = $props()
+  let {albums, class: className, hoveredAlbum}: {albums: Album[], class?: string, hoveredAlbum?: Album} = $props()
 
   let mapElement: HTMLElement
   let map: google.maps.Map
+
+  const initialZoom = 1.5
+  const initialCenter = {lat: 20, lng: 0}
 
   onMount(() => {
     if (window['google']?.['maps']) {
@@ -23,6 +26,17 @@
     document.head.appendChild(script)
   })
 
+  $effect(() => {
+    if (!map) return
+    if (hoveredAlbum) {
+      map.setZoom(4)
+      map.panTo(hoveredAlbum)
+    } else {
+      map.setZoom(initialZoom)
+      map.panTo(initialCenter)
+    }
+  })
+
   function initMap() {
     map = new google.maps.Map(mapElement, {
       zoom: 1.5,
@@ -36,10 +50,9 @@
     })
 
     albums.forEach(album => {
-      if (album.lat !== undefined && album.lon !== undefined) {
-        const position = {lat: album.lat, lng: album.lon}
+      if (album.lat !== undefined && album.lng !== undefined) {
         const marker = new google.maps.Marker({
-          position,
+          position: album,
           map,
           title: album.title,
         })
