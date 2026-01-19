@@ -25,20 +25,18 @@
 
   function initMap() {
     map = new google.maps.Map(mapElement, {
-      minZoom: 1,
+      zoom: 1.5,
+      center: {lat: 20, lng: 0},
       mapTypeId: google.maps.MapTypeId.SATELLITE,
       streetViewControl: false,
       zoomControl: false,
       panControl: false,
+      mapTypeControl: false,
       backgroundColor: '#3e5e89',
     })
 
-    const bounds = new google.maps.LatLngBounds()
-    let hasPins = false
-
     albums.forEach(album => {
       if (album.lat !== undefined && album.lon !== undefined) {
-        hasPins = true
         const position = {lat: album.lat, lng: album.lon}
         const marker = new google.maps.Marker({
           position,
@@ -60,14 +58,8 @@
         marker.addListener('click', () => {
           infoWindow.open(map, marker)
         })
-
-        bounds.extend(position)
       }
     })
-
-    if (hasPins) {
-      map.fitBounds(bounds)
-    }
   }
 </script>
 
