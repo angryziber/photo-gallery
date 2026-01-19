@@ -1,11 +1,14 @@
 <script lang="ts">
   import type {PageData} from './$types'
+  import Map from '$lib/components/Map.svelte'
 
   let {data}: {data: PageData} = $props()
 </script>
 
 <div class="container mx-auto px-4 py-8">
   <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">Anton Keks Photography</h1>
+
+  <Map albums={data.albums}/>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {#each data.albums as album}

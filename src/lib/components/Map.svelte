@@ -1,0 +1,72 @@
+<script lang="ts">
+  import {onMount} from 'svelte'
+  import type {Album} from '$lib/album_loader'
+
+  let {albums}: {albums: Album[]} = $props()
+
+  let mapElement: HTMLElement
+  let map: any
+
+  onMount(() => {
+    if (window['google']?.['maps']) {
+      initMap()
+      return
+    }
+
+    window['initMap'] = initMap
+    const key = 'AIzaSyBgn7wSYI8l-JD1X2LAJUqIUfWX9ezLoIA'
+    const script = document.createElement('script')
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`
+    script.async = true
+    script.defer = true
+
+    document.head.appendChild(script)
+  })
+
+  function initMap() {
+    const google = window['google']
+
+    map = new google.maps.Map(mapElement, {
+      center: {lat: 20, lng: 0},
+      zoom: 2,
+    })
+
+    const bounds = new google.maps.LatLngBounds()
+    let hasPins = false
+
+    albums.forEach(album => {
+      if (album.lat !== undefined && album.lon !== undefined) {
+        hasPins = true
+        const position = {lat: album.lat, lng: album.lon}
+        const marker = new google.maps.Marker({
+          position,
+          map,
+          title: album.title,
+        })
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: `
+            <div style="color: black; max-width: 200px;">
+                <h3 style="font-weight: bold; margin-bottom: 5px;">${album.title}</h3>
+                <p style="margin-bottom: 5px;">${album.date}</p>
+                <img src="${album.thumbnail}" style="width: 100%; height: auto; margin-bottom: 5px; border-radius: 4px;" />
+                <a href="${album.photosUrl}" target="_blank" style="color: blue; text-decoration: underline;">View Photos</a>
+            </div>
+            `
+        })
+
+        marker.addListener('click', () => {
+          infoWindow.open(map, marker)
+        })
+
+        bounds.extend(position)
+      }
+    })
+
+    if (hasPins) {
+      map.fitBounds(bounds)
+    }
+  }
+</script>
+
+<div class="w-full h-96 rounded-2xl overflow-hidden shadow-md mb-8" bind:this={mapElement}></div>
