@@ -83,7 +83,7 @@ export function loadAlbums(): Album[] {
       month,
       year,
       description: descriptionLines.join(' '),
-      thumbnail: `/albums/${id}.jpg`,
+      thumbnail: `albums/${id}.jpg`,
       photosUrl,
       lat,
       lon
