@@ -5,3 +5,7 @@ body {
   background-color: #abb5c5;
   font-family: system-ui, sans-serif;
 }
+
+a, button {
+  @apply cursor-pointer;
+}
