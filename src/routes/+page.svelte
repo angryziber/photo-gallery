@@ -72,7 +72,7 @@
 {#if selectedAlbum}
   <div
     transition:fade={{duration: 200}}
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+    class="fixed inset-0 z-50 flex items-center justify-center md:p-4 bg-black/70 backdrop-blur-md"
     onclick={closeAlbum}
     onkeydown={e => (e.key === 'Enter' || e.key === ' ') && closeAlbum()}
     role="button"
@@ -81,7 +81,7 @@
   >
     <section
       transition:fly={{y: 20, duration: 400}}
-      class="bg-white w-full max-w-4xl max-h-[90vh] flex flex-col rounded shadow-2xl relative"
+      class="bg-white w-full max-w-4xl max-h-full md:max-h-[90vh] flex flex-col rounded shadow-2xl relative"
       onclick={e => e.stopPropagation()} onkeydown={e => e.stopPropagation()}
       role="document"
     >
