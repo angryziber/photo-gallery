@@ -79,15 +79,14 @@
     tabindex="-1"
     aria-label="Close overlay"
   >
-    <div
+    <section
       transition:fly={{y: 20, duration: 400}}
-      class="bg-white w-full max-w-4xl max-h-[90vh] flex flex-col rounded-3xl shadow-2xl relative cursor-auto text-left"
-      onclick={e => e.stopPropagation()}
-      onkeydown={e => e.stopPropagation()}
+      class="bg-white w-full max-w-4xl max-h-[90vh] flex flex-col rounded shadow-2xl relative"
+      onclick={e => e.stopPropagation()} onkeydown={e => e.stopPropagation()}
       role="document"
     >
-      <div class="sticky top-0 bg-white/95 backdrop-blur-md z-20 px-6 py-6 md:px-12 md:py-10 border-b border-gray-100 flex items-center justify-between gap-4 rounded-t-3xl">
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">{selectedAlbum.title}</h2>
+      <div class="sticky top-0 bg-white/95 backdrop-blur-md z-20 p-6 md:px-10 border-b border-gray-100 flex items-center justify-between gap-4 rounded-t-3xl">
+        <h2 class="text-2xl font-bold text-gray-900 leading-tight">{selectedAlbum.title}</h2>
         <div class="flex items-center gap-2 md:gap-4">
           <a href={selectedAlbum.photosUrl} rel="noopener noreferrer"
             class="inline-flex items-center px-4 py-2 md:px-6 md:py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all active:scale-95 group/topbtn whitespace-nowrap shadow-sm">
@@ -102,9 +101,9 @@
         </div>
       </div>
 
-      <div class="flex-1 overflow-y-auto p-6 md:p-12">
+      <div class="flex-1 overflow-y-auto p-6 md:p-10">
         <a href={selectedAlbum.photosUrl} rel="noopener noreferrer"
-          class="block group/thumb aspect-video mb-10 overflow-hidden rounded-2xl shadow-xl relative">
+          class="block group/thumb aspect-video mb-10 overflow-hidden rounded shadow-xl relative">
           <img src={selectedAlbum.thumbnail} alt={selectedAlbum.title} class="w-full h-full object-cover transition-transform duration-700 group-hover/thumb:scale-105">
           <div class="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/10 transition-colors flex items-center justify-center">
             <div class="bg-white/90 p-4 rounded-full shadow-lg opacity-0 group-hover/thumb:opacity-100 transition-all scale-75 group-hover/thumb:scale-100">
@@ -123,6 +122,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 {/if}
