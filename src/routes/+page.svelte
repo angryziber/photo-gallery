@@ -78,36 +78,39 @@
   >
     <div
       transition:fly={{y: 20, duration: 400}}
-      class="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative cursor-auto text-left"
+      class="bg-white w-full max-w-4xl max-h-[90vh] flex flex-col rounded-3xl shadow-2xl relative cursor-auto text-left"
       onclick={e => e.stopPropagation()}
       onkeydown={e => e.stopPropagation()}
       role="document"
     >
-      <button
-        onclick={closeAlbum}
-        class="absolute top-6 right-6 text-gray-400 hover:text-gray-900 transition-colors p-2 z-20 bg-white/90 rounded-full shadow-sm hover:scale-110 active:scale-95"
-        title="Close"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-
-      <div class="p-6 md:p-12">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <h2 class="text-3xl font-bold text-gray-900">{selectedAlbum.title}</h2>
+      <div class="sticky top-0 bg-white/95 backdrop-blur-md z-20 px-6 py-6 md:px-12 md:py-10 border-b border-gray-100 flex items-center justify-between gap-4 rounded-t-3xl">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">{selectedAlbum.title}</h2>
+        <div class="flex items-center gap-2 md:gap-4">
           <a
             href={selectedAlbum.photosUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center px-6 py-3 bg-blue-50 text-blue-600 font-bold rounded-xl hover:bg-blue-100 transition-all active:scale-95 group/topbtn whitespace-nowrap"
+            class="inline-flex items-center px-4 py-2 md:px-6 md:py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all active:scale-95 group/topbtn whitespace-nowrap shadow-sm"
           >
-            <span>View Photos</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transition-transform group-hover/topbtn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <span class="hidden sm:inline">View Photos</span>
+            <span class="sm:hidden text-sm">Photos</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 ml-1 md:ml-2 transition-transform group-hover/topbtn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </a>
+          <button
+            onclick={closeAlbum}
+            class="text-gray-400 hover:text-gray-900 transition-colors p-2 bg-gray-50 rounded-full shadow-sm hover:scale-110 active:scale-95"
+            title="Close"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-6 md:p-12">
 
         <a
           href={selectedAlbum.photosUrl}
@@ -129,21 +132,10 @@
           {@html snarkdown(selectedAlbum.fullDescription)}
         </article>
 
-        <div class="mt-16 flex flex-col sm:flex-row items-center justify-between gap-8 border-t border-gray-100 pt-10">
-          <div class="text-gray-400 font-medium">
+        <div class="mt-16 flex items-center justify-between gap-8 border-t border-gray-100 pt-10">
+          <div class="text-gray-400 font-medium italic">
             {selectedAlbum.date}
           </div>
-          <a
-            href={selectedAlbum.photosUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold rounded-2xl hover:from-blue-700 hover:to-blue-800 transition-all hover:scale-105 shadow-xl hover:shadow-blue-200 active:scale-95 group"
-          >
-            <span>View Full Photo Album</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-3 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
         </div>
       </div>
     </div>
