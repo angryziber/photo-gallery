@@ -4,13 +4,23 @@
   import type {Album} from '$lib/album_loader'
   import snarkdown from 'snarkdown'
   import {fade, fly} from 'svelte/transition'
+  import {pushState} from '$app/navigation'
+  import {page} from '$app/state'
 
   let {data}: {data: PageData} = $props()
   let hoveredAlbum: Album | undefined = $state()
-  let selectedAlbum: Album | null = $state(null)
+  let selectedAlbum = $derived((page.state as any).selectedAlbum || data.albums.find(a => a.id === page.url.searchParams.get('album')))
+
+  function openAlbum(album: Album) {
+    const url = new URL(page.url.href)
+    url.searchParams.set('album', album.id)
+    pushState(url.href, {selectedAlbum: album})
+  }
 
   function closeAlbum() {
-    selectedAlbum = null
+    const url = new URL(page.url.href)
+    url.searchParams.delete('album')
+    pushState(url.href, {})
   }
 
   function handleKeydown(event: KeyboardEvent) {
@@ -24,21 +34,18 @@
   <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">Anton Keks Photography</h1>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-    <Map albums={data.albums} {hoveredAlbum} class="col-span-full h-96 xl:col-start-4 lg:col-start-3 lg:col-span-2 lg:row-start-1 lg:row-span-2 lg:h-full"/>
+    <Map albums={data.albums} {hoveredAlbum} onalbumclick={openAlbum} class="col-span-full h-96 xl:col-start-4 lg:col-start-3 lg:col-span-2 lg:row-start-1 lg:row-span-2 lg:h-full"/>
 
     {#each data.albums as album}
       <button
-        onclick={() => selectedAlbum = album}
+        onclick={() => openAlbum(album)}
         class="group relative overflow-hidden bg-gray-100 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl text-left w-full cursor-pointer"
         onmouseenter={() => hoveredAlbum = album}
         onmouseleave={() => hoveredAlbum = undefined}
       >
         <div class="aspect-square overflow-hidden">
-          <img
-            src={album.thumbnail}
-            alt={album.title}
-            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
+          <img src={album.thumbnail} alt={album.title}
+               class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
         </div>
 
         <div
@@ -69,7 +76,7 @@
     tabindex="-1"
     aria-label="Close overlay"
   >
-    <section
+    <div
       transition:fly={{y: 20, duration: 400}}
       class="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative cursor-auto text-left"
       onclick={e => e.stopPropagation()}
@@ -78,8 +85,8 @@
     >
       <button
         onclick={closeAlbum}
-        class="absolute top-6 right-6 text-gray-400 hover:text-gray-900 transition-colors p-2 z-10 bg-white/90 rounded-full shadow-sm hover:scale-110 active:scale-95"
-        aria-label="Close"
+        class="absolute top-6 right-6 text-gray-400 hover:text-gray-900 transition-colors p-2 z-20 bg-white/90 rounded-full shadow-sm hover:scale-110 active:scale-95"
+        title="Close"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -87,9 +94,36 @@
       </button>
 
       <div class="p-6 md:p-12">
-        <div class="aspect-video mb-10 overflow-hidden rounded-2xl shadow-xl">
-          <img src={selectedAlbum.thumbnail} alt={selectedAlbum.title} class="w-full h-full object-cover" />
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+          <h2 class="text-3xl font-bold text-gray-900">{selectedAlbum.title}</h2>
+          <a
+            href={selectedAlbum.photosUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center px-6 py-3 bg-blue-50 text-blue-600 font-bold rounded-xl hover:bg-blue-100 transition-all active:scale-95 group/topbtn whitespace-nowrap"
+          >
+            <span>View Photos</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transition-transform group-hover/topbtn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
         </div>
+
+        <a
+          href={selectedAlbum.photosUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block group/thumb aspect-video mb-10 overflow-hidden rounded-2xl shadow-xl relative"
+        >
+          <img src={selectedAlbum.thumbnail} alt={selectedAlbum.title} class="w-full h-full object-cover transition-transform duration-700 group-hover/thumb:scale-105" />
+          <div class="absolute inset-0 bg-black/0 group-hover/thumb:bg-black/10 transition-colors flex items-center justify-center">
+            <div class="bg-white/90 p-4 rounded-full shadow-lg opacity-0 group-hover/thumb:opacity-100 transition-all scale-75 group-hover/thumb:scale-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+          </div>
+        </a>
 
         <article class="prose prose-slate lg:prose-xl max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600">
           {@html snarkdown(selectedAlbum.fullDescription)}
@@ -112,6 +146,6 @@
           </a>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 {/if}

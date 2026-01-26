@@ -2,7 +2,12 @@
   import {onMount} from 'svelte'
   import type {Album} from '$lib/album_loader'
 
-  let {albums, class: className, hoveredAlbum}: {albums: Album[], class?: string, hoveredAlbum?: Album} = $props()
+  let {albums, class: className, hoveredAlbum, onalbumclick}: {
+    albums: Album[],
+    class?: string,
+    hoveredAlbum?: Album,
+    onalbumclick?: (album: Album) => void
+  } = $props()
 
   let mapElement: HTMLElement
   let map: google.maps.Map
@@ -11,12 +16,12 @@
   const initialCenter = {lat: 20, lng: 0}
 
   onMount(() => {
-    if (window['google']?.['maps']) {
+    if ((window as any).google?.maps) {
       initMap()
       return
     }
 
-    window['initMap'] = initMap
+    (window as any).initMap = initMap
     const key = 'AIzaSyBgn7wSYI8l-JD1X2LAJUqIUfWX9ezLoIA'
     const script = document.createElement('script')
     script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`
@@ -57,7 +62,7 @@
       })
 
       marker.addListener('click', () => {
-        location.href = album.photosUrl
+        onalbumclick?.(album)
       })
     })
   }
